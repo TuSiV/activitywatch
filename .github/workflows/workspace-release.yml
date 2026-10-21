@@ -158,6 +158,7 @@ jobs:
       if: startsWith(runner.os, 'linux')
       run: |-
         ./scripts/package/package-appimage.sh
+        mv dist/activitywatch-linux-x86_64.AppImage "dist/activitywatch-${TRAVIS_TAG}-linux-x86_64.AppImage"
     - name: Host-ABI gate — verify the packaged AppImage
       if: startsWith(runner.os, 'linux')
       run: |-
