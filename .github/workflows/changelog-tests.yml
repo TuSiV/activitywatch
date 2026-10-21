@@ -6,7 +6,7 @@ on:
       - 'scripts/tests/test_build_changelog.py'
       - '.github/workflows/changelog-tests.yml'
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'scripts/build_changelog.py'
       - 'scripts/tests/test_build_changelog.py'

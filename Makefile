@@ -83,6 +83,7 @@ endif
 #  - Installs all the Python modules
 #  - Builds the web UI and bundles it with aw-server
 build: aw-core/.git
+	python3 scripts/apply_webui_theme.py
 #	needed due to https://github.com/pypa/setuptools/issues/1963
 #	would ordinarily be specified in pyproject.toml, but is not respected due to https://github.com/pypa/setuptools/issues/1963
 	pip install 'setuptools>49.1.1'

@@ -1,0 +1,86 @@
+{
+  "src/App.vue": {
+    "original": "e2acfe5c66c1ac56bef2b66f97e7aaaaab0af4c304d1c3661a0cfdb5e7e1b13c",
+    "replacement": "7ecf8858747f930e8a2ce1bea3a2902f63809804cd9ba045eb0d205dced8cbfd"
+  },
+  "src/views/Timeline.vue": {
+    "original": "9cebc0e856d2b066e4ca39690c0badd67d5db3e513013d18126b27058ed66240",
+    "replacement": "97106517487eabc266c1f8c9dc599a91f8fe16fa59b2fff46403a153b10d7751"
+  },
+  "src/views/WorkReport.vue": {
+    "original": "6589f3c7d9afef1825a3974b13bf075ccd6060b1c7220e68b754fb01d7637388",
+    "replacement": "fdd20ded6fa9f3489ba9d0de6b083323708d7c80f0f53296b8c291d5ed0d031d"
+  },
+  "src/style/workspace.scss": {
+    "original": null,
+    "replacement": "92fb4aec8c511f69ae7f12899d3d54f12009f0a0a2c72584f4c79855f2d70263"
+  },
+  "src/style/style.scss": {
+    "original": "2c94d3e5070d8b1b3eb8c39850d4b625fdf5f28506fb948d4a354ca068f251bb",
+    "replacement": "694fef57126306915f87711a8a56058817386e1caabeb522afd582b2880789ce"
+  },
+  "src/components/Header.vue": {
+    "original": "89b323e68fd7ab1a876e5bfd0cf263cce746ad875cd848792500bb96f2126f12",
+    "replacement": "177e38c4690142aa19c8c0bec716eeb019be2b2bf7253d923535e6feacb7234e"
+  },
+  "src/components/Footer.vue": {
+    "original": "c9d234a49ed042e98def6b1110cb0659e5875abad4291009c28494a929d4ef2e",
+    "replacement": "273648adc7031b59c5adc2276faf78239f41ef70292707f77b10e3efbda10459"
+  },
+  "src/components/SelectableVisualization.vue": {
+    "original": "d96c2067492cdf27d4ef69104604b36ddce74f3753927cf8be7b6652dad421db",
+    "replacement": "942ce3158abd8a26ce306cb430ac2cf2b4adeba45901b2b5baffe67c03762f16"
+  },
+  "src/visualizations/SunburstCategories.vue": {
+    "original": "ae718ecbc960e863ef72d5d179e6f17cde119b651792ebd1f578545897e79b2b",
+    "replacement": "95cebe6d5b3f974a0df65dae2ef2e1556b342d40499f25fe309478f91f5fe599"
+  },
+  "src/visualizations/TimelineBarChart.vue": {
+    "original": "e49548c8c6774f7e82ee071715218382dec1eeb04e2bc58b89f0f0e162b86775",
+    "replacement": "90e1e60eb0237986ad905eee8b9bf4240346b71bca3dd19be89bcc977007ac04"
+  },
+  "src/views/activity/ActivityView.vue": {
+    "original": "f497ac95d41607e2f0a9e8deb0a03a56691e442993ee9c417ac1e9210e807a40",
+    "replacement": "ef78170d8b318ecdc640438358f589aa92719aa404153e572c846339d9a1c4c6"
+  },
+  "src/views/activity/Activity.vue": {
+    "original": "064f8f2fd79c92b7aaa33c70d7e015e16a269691278bb133d69772f68d39e559",
+    "replacement": "c2452868cf9439dda4c8b2c8903c15d4f2105869325fe45821fdeeba00cd3cae"
+  },
+  "src/i18n/locales/en.ts": {
+    "original": "8eae15e0a4052c3edb99f293c8fd38d724b85b3b2ec785c10931413dda50e1fb",
+    "replacement": "09d9f4e0ddce6a5b04741477defd8fccddc0e2b4b3ec1c8b420e122117bc2a00"
+  },
+  "src/i18n/locales/ru.ts": {
+    "original": "dcfeb7d0ed6396102a4ba0dc7105e8826bd3a1a657e5e4bfdd69c56bdae2a5b3",
+    "replacement": "3d04851a7f5aa9f69a029526f6cbb28c68fa7362474b418da84176056ce7bd39"
+  },
+  "src/i18n/locales/zh-CN.ts": {
+    "original": "87aa488f3abc6b5efcb754b5aae9cc1820e586b06b264e7fc513ab4354e0d296",
+    "replacement": "f24244ec87922b49bec4b57982462e5ae38ed997a43cad1a80da16bddde9e746"
+  },
+  "src/i18n/locales/de.ts": {
+    "original": "14aa7f3d8baeac0170b3558c3ad6f56911fcb3c802c64bfac93a1edc7fe77951",
+    "replacement": "7b94a3e5e0f8ec789f5f951999b9d77e8bbb6184bbe922194aa5199a769ebfe8"
+  },
+  "src/i18n/locales/sv.ts": {
+    "original": "217b39cf7981a5a0fca8326a35d0bc73f3d9ac4d0b715547a25f4e0c53e647ce",
+    "replacement": "7a141e768bd08f3c5fde7e4b02b35395380c700284a80caec9da76b55793b53c"
+  },
+  "src/i18n/locales/uk.ts": {
+    "original": "6124380426210212245f3f99c9b6694501a4559e20c70180a6abbe53da2613f1",
+    "replacement": "c8d4fef19af4cb06d88e1cbf8ea0138729176a1cfa154c47fd1c97c30c34750e"
+  },
+  "static/dark.css": {
+    "original": "82a188d00bfe36cc26afe2c54bcb7a6c915db9a823ffef00ab159deb98b80593",
+    "replacement": "b557eb79df9a70d7ccc4433e68fdb32944c87427ed39685641a60fee5fc3ac49"
+  },
+  "test/unit/ActivityView.test.js": {
+    "original": "ab5884c10a78e15947fcb3be247ae3bb7efadb2feb3eb73d72626c0e62aede5f",
+    "replacement": "c64c4de1cd6657c6385992009ae9e407b1ebce627f7f1d2d7c82db60684d60d0"
+  },
+  "test/unit/Header.test.js": {
+    "original": "3cc2924358a8c7defb7368066971196ffd0f62655a3340c7b6c92a6420f37d2e",
+    "replacement": "1fb254365f600f1cd8e4daa614c760d20a6b2f57dfdcddcae4eabf3c98b75594"
+  }
+}

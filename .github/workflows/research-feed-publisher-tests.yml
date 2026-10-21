@@ -6,7 +6,7 @@ on:
       - 'scripts/tests/test_publish_research_feed.py'
       - '.github/workflows/research-feed-publisher-tests.yml'
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'scripts/package/publish_research_feed.py'
       - 'scripts/tests/test_publish_research_feed.py'

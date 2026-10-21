@@ -1281,6 +1281,7 @@ def build(server_bin: Path, webpath: Path) -> None:
     if webpath == DEFAULT_WEBPATH:
         if not (WEBUI_DIR / "package.json").exists():
             raise SystemExit("aw-webui submodule missing: git submodule update --init --recursive aw-server-rust")
+        subprocess.run([sys.executable, str(Path(__file__).resolve().parents[1] / "scripts/apply_webui_theme.py"), "--webui", str(WEBUI_DIR)], check=True)
         print("Building aw-webui...")
         if not (WEBUI_DIR / "node_modules").exists():
             subprocess.run(["npm", "ci"], cwd=WEBUI_DIR, check=True)

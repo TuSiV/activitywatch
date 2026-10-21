@@ -89,6 +89,14 @@
  * [Contributing](#contributing)
 </details>
 
+## TuSiV workspace edition
+
+A responsive workspace for reviewing your time: persistent desktop navigation, mobile drawer, clearer activity cards, readable light/dark themes and work-report summaries.
+
+[Build and maintain this edition](ui-overrides/README.md) · [Upstream ActivityWatch](https://github.com/ActivityWatch/activitywatch)
+
+![Workspace activity view with synthetic demo data](.github/images/workspace-light.png)
+
 ## About
 
 The goal of ActivityWatch is simple: *Enable the collection of as much valuable lifedata as possible without compromising user privacy.*

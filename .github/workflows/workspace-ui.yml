@@ -1,0 +1,41 @@
+name: Workspace UI
+on:
+  push:
+    branches: [main]
+    paths: ['ui-overrides/**', 'scripts/apply_webui_theme.py', 'scripts/tests/test_webui_theme.py', '.github/workflows/workspace-ui.yml', 'Makefile']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize pinned frontend
+        run: git submodule update --init --recursive aw-server
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify safe overlay application
+        run: |
+          python -m unittest discover -s scripts/tests -p test_webui_theme.py -v
+          python scripts/apply_webui_theme.py --webui aw-server/aw-webui
+          python scripts/apply_webui_theme.py --webui aw-server/aw-webui --check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: aw-server/aw-webui/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: aw-server/aw-webui
+        run: npm ci
+      - name: Check locales and regressions
+        working-directory: aw-server/aw-webui
+        run: |
+          npm run check:locales
+          npx jest --runInBand --coverage=false
+      - name: Build production frontend
+        working-directory: aw-server/aw-webui
+        run: make build

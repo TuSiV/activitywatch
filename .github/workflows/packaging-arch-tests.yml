@@ -10,7 +10,7 @@ on:
       - '.github/workflows/packaging-arch-tests.yml'
       - '.github/workflows/release.yml'
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'scripts/package/get-arch.sh'
       - 'scripts/package/assert-windows-pe-arch.py'
