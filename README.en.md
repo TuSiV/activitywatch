@@ -52,7 +52,7 @@ Browser tab titles and URLs require the corresponding browser extension. Other d
 
 ## Get started
 
-**The customised interface is currently available by building from source. This repository has no public installer release yet.** Future downloads will be listed with their assets and notes under [this fork’s Releases](https://github.com/TuSiV/activitywatch/releases).
+**[Download the v0.14.1 workspace release](https://github.com/TuSiV/activitywatch/releases/tag/v0.14.1)**: Windows x64 installer and portable ZIP, Linux x64 AppImage / DEB / ZIP, and macOS Apple Silicon / Intel DMGs. Installers are not developer-signed; macOS packages are not notarized. See the release notes for installation details and SHA-256 checksums.
 
 ### Build the desktop suite
 

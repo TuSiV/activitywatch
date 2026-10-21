@@ -52,7 +52,7 @@
 
 ## 开始使用
 
-**定制界面当前通过源码构建获取，本仓库尚未发布公开安装包。** 后续安装包以[本仓库 Releases](https://github.com/TuSiV/activitywatch/releases) 的附件与说明为准。
+**[下载 v0.14.1 工作空间版](https://github.com/TuSiV/activitywatch/releases/tag/v0.14.1)**：Windows x64 安装包与便携 ZIP、Linux x64 AppImage / DEB / ZIP、macOS Apple Silicon 与 Intel DMG。安装包未使用开发者证书签名，macOS 未公证；安装说明与 SHA-256 校验值见 Release。
 
 ### 构建完整桌面套件
 

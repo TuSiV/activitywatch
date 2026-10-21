@@ -4,7 +4,7 @@ This fork adds a responsive time-analysis workspace to the pinned ActivityWatch 
 
 ## Source and builds
 
-`ui-overrides/` contains reviewed frontend replacements plus a SHA-256 manifest. `scripts/apply_webui_theme.py` applies them to initialized Python/Rust server frontends before the root `make build`. `make screenshots` applies the same overlay. The upstream submodule URLs and commit pins remain unchanged; this fork does not push to upstream component repositories.
+`ui-overrides/` contains reviewed frontend replacements plus a SHA-256 manifest. `scripts/apply_webui_theme.py` applies them to initialized Python/Rust/Tauri frontends before the root `make build`. `make screenshots` applies the same overlay. The upstream submodule URLs and commit pins remain unchanged; this fork does not push to upstream component repositories.
 
 ```sh
 git clone --recurse-submodules https://github.com/TuSiV/activitywatch.git
@@ -24,7 +24,7 @@ For a standalone component build, apply the overlay explicitly before running th
 
 ## Updating upstream
 
-Every replaced file must match either its reviewed upstream hash or its already-applied replacement hash. All checkouts are validated before writing. Changed upstream files and local edits fail the build with the exact affected path rather than being overwritten. After a submodule update, rebase the affected replacements and regenerate their manifest hashes only after review. An existing initialized checkout can be reset using Git after preserving local changes; never regenerate hashes merely to silence a failure.
+Every replaced file must match either its reviewed upstream hash or its already-applied replacement hash. CRLF checkouts are compared using canonical LF content, so Git for Windows does not invalidate reviewed text assets. All checkouts are validated before writing. Changed upstream files and local edits fail the build with the exact affected path rather than being overwritten. After a submodule update, rebase the affected replacements and regenerate their manifest hashes only after review. An existing initialized checkout can be reset using Git after preserving local changes; never regenerate hashes merely to silence a failure.
 
 The Workspace UI workflow verifies overlay behavior, frontend regression tests, locale parity and a production build on `main`.
 
@@ -45,3 +45,9 @@ Validation includes both Vue CLI and Vite production builds, changed-source lint
 Application icons use a curated local subset of Lucide 1.61.0 with rounded 1.75px strokes on a 24px grid, inspired by the compact line-icon treatment on OpenRouter. Existing icon names map to the new shapes, including device and native-action menus. Brands and extension-defined icons keep the compatible legacy renderer. SVGs inherit the surrounding text colour, preserve scale/labels/loading animations and respect reduced-motion preferences.
 
 No runtime icon package or remote image requests are added. The Lucide ISC notice is bundled at `static/licenses/lucide.txt`.
+
+## Desktop releases
+
+Run **Actions → Workspace Release → Run workflow** on `main` with an unused `v0.14.x` tag. The workflow checks out pinned submodules, applies the workspace overlay, builds and tests standard Qt bundles for Windows x64, Linux x64, macOS Apple Silicon and macOS Intel, then validates the expected installers and creates `SHA256SUMS.txt`. The release and tag are created only after every platform succeeds; existing releases and tags are never overwritten.
+
+This fork workflow produces installers without developer certificates and explicitly names macOS DMGs `unsigned`. It does not publish Tauri updater manifests or use upstream signing secrets. The upstream `Release` workflow remains separate. Release notes live in `.github/releases/workspace.md`; update them before each release, then update the bilingual README download link after publication.
