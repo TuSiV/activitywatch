@@ -13,7 +13,7 @@
   },
   "src/style/workspace.scss": {
     "original": null,
-    "replacement": "92fb4aec8c511f69ae7f12899d3d54f12009f0a0a2c72584f4c79855f2d70263"
+    "replacement": "ad0633195f49a81b1e6099becb06cade7890e2a154519d3990cb8a100a2df500"
   },
   "src/style/style.scss": {
     "original": "2c94d3e5070d8b1b3eb8c39850d4b625fdf5f28506fb948d4a354ca068f251bb",
@@ -82,5 +82,25 @@
   "test/unit/Header.test.js": {
     "original": "3cc2924358a8c7defb7368066971196ffd0f62655a3340c7b6c92a6420f37d2e",
     "replacement": "1fb254365f600f1cd8e4daa614c760d20a6b2f57dfdcddcae4eabf3c98b75594"
+  },
+  "src/main.js": {
+    "original": "80088cbf991a2a0c20b59b4ca60aeeb2e89bf2d35871f7a8a3b7c64e3ba52beb",
+    "replacement": "e43fb499479332af1a2d3033fcc542c0af80fbc6d323778852fe35b41a601228"
+  },
+  "src/components/WorkspaceIcon.vue": {
+    "original": null,
+    "replacement": "898f6033b368e4d75be333622d204becc5c65a112d13c7a091fed9ca0e0199bf"
+  },
+  "src/icons/workspaceIcons.ts": {
+    "original": null,
+    "replacement": "b0ea353fd49ccdc447c69e8311ba0aa5514a9971ab9775ab5faecb6d277b7bd4"
+  },
+  "static/licenses/lucide.txt": {
+    "original": null,
+    "replacement": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+  },
+  "test/unit/WorkspaceIcon.test.js": {
+    "original": null,
+    "replacement": "bf66384780f540a3d539337356c7dc4ffecf73eafd1486af7ff2582f45b45f47"
   }
 }

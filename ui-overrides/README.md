@@ -39,3 +39,9 @@ The captures below use synthetic API fixtures, not personal activity records.
 [Mobile activity view](../.github/images/workspace-mobile.png)
 
 Validation includes both Vue CLI and Vite production builds, changed-source lint, six-locale key/placeholder parity, the existing frontend regression suite, overlay idempotence/drift checks, and a Chromium smoke test. The browser checks cover 1440px desktop and 390px phone layouts, date navigation, theme persistence, drawer navigation, time-report calculation, CSV download and timeline rendering. The browser uses deterministic API fixtures; installed Windows/macOS bundles are not exercised by this source change.
+
+## Icons
+
+Application icons use a curated local subset of Lucide 1.61.0 with rounded 1.75px strokes on a 24px grid, inspired by the compact line-icon treatment on OpenRouter. Existing icon names map to the new shapes, including device and native-action menus. Brands and extension-defined icons keep the compatible legacy renderer. SVGs inherit the surrounding text colour, preserve scale/labels/loading animations and respect reduced-motion preferences.
+
+No runtime icon package or remote image requests are added. The Lucide ISC notice is bundled at `static/licenses/lucide.txt`.

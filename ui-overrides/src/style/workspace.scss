@@ -537,3 +537,66 @@ summary:focus-visible,
   align-items: baseline;
   gap: 8px;
 }
+
+/* Navigation and actions use the same restrained, rounded line-icon system. */
+.aw-line-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: -0.15em;
+  fill: none !important;
+  stroke: currentColor;
+  overflow: visible;
+}
+.aw-line-icon--inverse {
+  color: #fff;
+}
+.aw-line-icon--flip-x {
+  transform: scaleX(-1);
+}
+.aw-line-icon--flip-y {
+  transform: scaleY(-1);
+}
+.aw-line-icon--spin {
+  animation: aw-icon-rotate 1.6s linear infinite;
+}
+.aw-line-icon--pulse {
+  animation: aw-icon-rotate 1.2s steps(8) infinite;
+}
+@keyframes aw-icon-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.aw-sidebar-nav .aw-line-icon,
+.aw-nav-drawer .aw-line-icon {
+  width: 18px;
+  height: 18px;
+  margin-left: 0;
+  margin-right: 12px;
+}
+.aw-sidebar-nav .nav-link,
+.aw-sidebar-nav .nav-link > div,
+.aw-nav-drawer .nav-link > div {
+  display: flex;
+  align-items: center;
+}
+.aw-sidebar-nav .nav-link {
+  font-weight: 500;
+}
+.aw-sidebar-nav .router-link-active {
+  font-weight: 600;
+}
+.btn .aw-line-icon {
+  margin-left: 0;
+  margin-right: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .aw-line-icon--spin,
+  .aw-line-icon--pulse {
+    animation: none;
+  }
+}
+.aw-sidebar-nav .dropdown-toggle::after {
+  margin-left: auto;
+  opacity: 0.5;
+}
