@@ -1,0 +1,210 @@
+# Standard Qt desktop release for this fork; upstream signing/updater workflow is preserved.
+name: Workspace Release
+'on':
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag (v0.14.x)
+        required: true
+        default: v0.14.1
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: workspace-release
+  cancel-in-progress: false
+jobs:
+  build:
+    name: Qt desktop (${{ matrix.os }})
+    if: github.repository == 'TuSiV/activitywatch' && github.ref == 'refs/heads/main'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    env:
+      AW_EXTRAS: 'true'
+      AW_RESEARCH_EDITION: 'false'
+      RELEASE: 'true'
+      TRAVIS_TAG: ${{ inputs.version }}
+      MACOSX_DEPLOYMENT_TARGET: '12.0'
+      POETRY_INSTALLER_PARALLEL: 'false'
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-22.04
+        - windows-latest
+        - macos-latest
+        - macos-15-intel
+        python_version:
+        - '3.9'
+        node_version:
+        - 22
+        skip_webui:
+        - false
+        skip_rust:
+        - false
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: recursive
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@v7
+      with:
+        python-version: ${{ matrix.python_version }}
+    - name: Verify version and overlay
+      run: |
+        [[ "$TRAVIS_TAG" =~ ^v0\.14\.[0-9]+$ ]] || { echo "Expected v0.14.x"; exit 1; }
+        python3 -m unittest discover -s scripts/tests -p test_webui_theme.py -v
+        python3 scripts/apply_webui_theme.py
+        python3 scripts/apply_webui_theme.py --check
+        python3 scripts/check_tauri_server.py "${TRAVIS_TAG#v}"
+    - name: Set up Node
+      if: ${{ !matrix.skip_webui }}
+      uses: actions/setup-node@v7
+      with:
+        node-version: ${{ matrix.node_version }}
+    - name: Set up Rust
+      if: ${{ !matrix.skip_rust }}
+      uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9
+      id: toolchain
+      with:
+        toolchain: stable
+    - name: Cache node_modules
+      uses: actions/cache@v6
+      if: ${{ !matrix.skip_webui }}
+      with:
+        path: aw-server-rust/aw-webui/node_modules
+        key: ${{ matrix.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: '${{ matrix.os }}-node_modules-
+
+          '
+    - name: Cache cargo build
+      uses: actions/cache@v6
+      env:
+        cache-name: cargo-build-target
+      with:
+        path: 'aw-server-rust/target
+
+          awatcher/target
+
+          '
+        key: ${{ matrix.os }}-${{ env.cache-name }}-${{ steps.toolchain.outputs.cachekey }}-${{ hashFiles('**/Cargo.lock')
+          }}
+        restore-keys: '${{ matrix.os }}-${{ env.cache-name }}-${{ steps.toolchain.outputs.rustc_hash }}-
+
+          '
+    - name: Install APT dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          appstream \
+          qt5-qmake \
+          qtbase5-dev \
+          qtwayland5 \
+          libqt5x11extras5 \
+          libfontconfig1 \
+          libxcb1 \
+          libfontconfig1-dev \
+          libfreetype6-dev \
+          libx11-dev \
+          libxcursor-dev \
+          libxext-dev \
+          libxfixes-dev \
+          libxft-dev \
+          libxi-dev \
+          libxrandr-dev \
+          libxrender-dev \
+          libxkbcommon-dev
+    - name: Install dependencies
+      run: |
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          choco install innosetup
+        fi
+        pip3 install poetry==2.2.1
+    - name: Build
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate || source venv/Scripts/activate
+        poetry install
+        make build SKIP_WEBUI=${{ matrix.skip_webui }} SKIP_SERVER_RUST=${{ matrix.skip_rust }}
+        pip freeze
+    - name: Run tests
+      run: |
+        source venv/bin/activate || source venv/Scripts/activate
+        make test SKIP_SERVER_RUST=${{ matrix.skip_rust }}
+    - name: Run integration tests
+      if: runner.os != 'Windows'
+      run: |
+        source venv/bin/activate || source venv/Scripts/activate
+        make test-integration
+    - name: Test research edition profile patcher
+      run: |
+        source venv/bin/activate || source venv/Scripts/activate
+        python3 -m pytest scripts/tests/test_patch_research_edition_profile.py -q
+    - name: Package
+      run: |
+        source venv/bin/activate || source venv/Scripts/activate
+        poetry install
+        make package SKIP_SERVER_RUST=${{ matrix.skip_rust }}
+    - name: Host-ABI gate — verify no host system libraries are bundled
+      if: startsWith(runner.os, 'linux')
+      run: |-
+        bash scripts/package/host-abi-gate.sh dist/activitywatch
+    - name: Package AppImage
+      if: startsWith(runner.os, 'linux')
+      run: |-
+        ./scripts/package/package-appimage.sh
+    - name: Host-ABI gate — verify the packaged AppImage
+      if: startsWith(runner.os, 'linux')
+      run: |-
+        bash scripts/package/host-abi-gate.sh dist/activitywatch*-linux-x86_64.AppImage
+    - name: Package deb
+      if: startsWith(runner.os, 'linux')
+      run: |-
+        ./scripts/package/package-deb.sh
+    - name: Package unsigned macOS disk image
+      if: runner.os == 'macOS'
+      run: |
+        source venv/bin/activate
+        make dist/ActivityWatch.dmg
+        mv dist/ActivityWatch.dmg "dist/activitywatch-${TRAVIS_TAG}-macos-$(uname -m)-unsigned.dmg"
+    - uses: actions/upload-artifact@v7
+      with:
+        name: workspace-${{ matrix.os }}
+        path: dist/activitywatch-*.*
+        if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v7
+    - uses: actions/download-artifact@v8
+      with:
+        pattern: workspace-*
+        path: dist
+        merge-multiple: true
+    - name: Verify packages and publish release
+      env:
+        GH_TOKEN: ${{ github.token }}
+        RELEASE_TAG: ${{ inputs.version }}
+        RELEASE_SHA: ${{ github.sha }}
+      run: |
+        set -euo pipefail
+        [[ "$RELEASE_TAG" =~ ^v0\.14\.[0-9]+$ ]]
+        # Every desktop platform must have a real installer before publishing.
+        for pattern in '*-windows-*-setup.exe' '*-linux-*.AppImage' '*-linux-*.deb' '*-macos-arm64-unsigned.dmg' '*-macos-x86_64-unsigned.dmg'; do
+          compgen -G "dist/activitywatch-${RELEASE_TAG}${pattern}" > /dev/null
+        done
+        (cd dist && sha256sum activitywatch-* > SHA256SUMS.txt)
+        # Fail rather than overwrite an existing release or tag.
+        if gh release view "$RELEASE_TAG" > /dev/null 2>&1; then echo "Release already exists" >&2; exit 1; fi
+        if git ls-remote --exit-code --tags origin "refs/tags/$RELEASE_TAG" > /dev/null 2>&1; then echo "Tag already exists" >&2; exit 1; fi
+        gh release create "$RELEASE_TAG" dist/activitywatch-* dist/SHA256SUMS.txt \
+          --target "$RELEASE_SHA" --title "ActivityWatch ${RELEASE_TAG} · Workspace UI" \
+          --notes-file .github/releases/workspace.md --latest

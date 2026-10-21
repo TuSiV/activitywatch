@@ -18,8 +18,14 @@ ROOT = Path(__file__).resolve().parents[1]
 OVERLAY = ROOT / 'ui-overrides'
 
 
+def normalized_bytes(path: Path) -> bytes:
+    # Git for Windows may check these text assets out with CRLF. Compare the
+    # canonical LF content while still rejecting every substantive edit.
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
 def digest(path: Path) -> str | None:
-    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+    return hashlib.sha256(normalized_bytes(path)).hexdigest() if path.is_file() else None
 
 
 def apply(targets: list[Path], check: bool = False) -> int:
@@ -45,7 +51,7 @@ def apply(targets: list[Path], check: bool = False) -> int:
             pending.append((source, dest))
     for source, dest in pending:
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_bytes(source.read_bytes())
+        dest.write_bytes(normalized_bytes(source))
     return len(pending)
 
 
@@ -56,7 +62,7 @@ def main() -> int:
     args = parser.parse_args()
     targets = args.webui or [p for p in (
         ROOT / 'aw-server/aw-webui', ROOT / 'aw-server-rust/aw-webui',
-        ROOT / 'aw-tauri/aw-server/aw-webui',
+        ROOT / 'aw-tauri/aw-webui', ROOT / 'aw-tauri/aw-server/aw-webui',
         ROOT / 'aw-tauri/src-tauri/aw-server/aw-webui',
     ) if (p / 'package.json').is_file()]
     if not targets:

@@ -38,6 +38,23 @@ class OverlayTests(unittest.TestCase):
         self.assertEqual(theme.apply([self.target]), 0)
         self.assertEqual(theme.apply([self.target], check=True), 0)
 
+    def test_windows_checkout_line_endings(self):
+        original = self.target / 'one.vue'
+        replacement = self.overlay / 'one.vue'
+        original.write_bytes(b'before\nline\n')
+        replacement.write_bytes(b'after\nline\n')
+        manifest = json.loads((self.overlay / 'manifest.json').read_text())
+        manifest['one.vue'] = {'original': theme.digest(original), 'replacement': theme.digest(replacement)}
+        (self.overlay / 'manifest.json').write_text(json.dumps(manifest))
+        original.write_bytes(b'before\r\nline\r\n')
+        replacement.write_bytes(b'after\r\nline\r\n')
+        self.assertEqual(theme.apply([self.target]), 2)
+        self.assertEqual(original.read_bytes(), b'after\nline\n')
+        self.assertEqual(theme.apply([self.target], check=True), 0)
+        original.write_bytes(b'local edit\r\nline\r\n')
+        with self.assertRaisesRegex(ValueError, 'file changed'):
+            theme.apply([self.target])
+
     def test_drift_in_second_target_leaves_first_unchanged(self):
         import shutil
         second = self.target.parent / 'other'
